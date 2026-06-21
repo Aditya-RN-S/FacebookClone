@@ -1,7 +1,6 @@
 package com.company.facebookclone;
 
-import android.media.MediaDrm;
-import android.text.Layout;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,13 +8,42 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+
 public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+
+    private OnPostClickListner listner;
+
+    public void setOnPostClickListner(OnPostClickListner listner){
+        this.listner =listner;
+    }
+
+    public void addPost(Post post){
+        postList.add(0,post);
+        notifyItemInserted(0);
+    }
+    public boolean deletePost(int postion){
+        if (postList.get(postion)==null){
+            return false;
+        }
+        postList.remove(postion);
+        notifyItemRemoved(postion);
+        return true;
+    }
+
+    public void update(int position ,String updateName,String updatetext ){
+        Post post = postList.get(position);
+        post.setName(updateName);
+        post.setPostText(updatetext);
+        notifyItemChanged(position);
+
+    }
 
     private List<Post> postList;
 
@@ -48,6 +76,7 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder , int position){
+
         Post post = postList.get(position);
 
         ((FeedViewHolder)holder).bindCommondata(post);
@@ -57,6 +86,43 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }else {
              ((ImageViewHolder)holder).bindImageData(post);
         }
+
+
+        holder.itemView.setOnClickListener(v->{
+            if (listner !=null){
+                listner.onPostClick(holder.getAbsoluteAdapterPosition(),post);
+            }
+        });
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener(){
+            @Override
+            public boolean onLongClick(View view) {
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(holder.itemView.getContext())
+                        .setTitle(R.string.delete_post_title)
+                        .setIcon(R.drawable.outline_delete_24)
+                        .setMessage(R.string.delete_post_massage)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                return;
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deletePost(holder.getAbsoluteAdapterPosition());
+                            }
+                        });
+
+                builder.show();
+
+                return true;
+
+
+            }
+        });
     }
 
     @Override

@@ -3,4 +3,10 @@
     <string name="search_icon">search</string>
     <string name="messenger_icon">message</string>
     <string name="facebook_toolbar_title">facebook</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Post</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_post_title">Delete Post</string>
+    <string name="delete_post_massage">Do you want to delete post?</string>
 </resources>

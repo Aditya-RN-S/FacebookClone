@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="FbDialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.55</item>
+        <item name="windowMinWidthMajor">85%</item>
+    </style>
+    
+    <style name="Delete_dialog_theme" >
+        <item name="alertDialogTheme">@style/FbDialogTheme</item>
+        <item name="android:alertDialogTheme">@style/FbDialogTheme</item>
+    </style>
+</resources>
